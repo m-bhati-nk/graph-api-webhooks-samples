@@ -16,6 +16,9 @@ app.listen(app.get('port'));
 
 app.use(xhub({ algorithm: 'sha1', secret: process.env.APP_SECRET }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.raw({ type: '*/*' }));
 
 var token = process.env.TOKEN || 'token';
 var received_updates = [];
@@ -56,10 +59,16 @@ app.get('/instagram/data_deletion', function(req, res) {
 
 app.post('/instagram/data_deletion', function(req, res) {
   console.log('Instagram deletion request POST details:');
+  console.log('Instagram deletion Content-Type:', req.headers['content-type']);
   console.log('Instagram deletion Headers:', req.headers);
   console.log('Instagram deletion Query:', req.query);
   console.log('Instagram deletion Body:', req.body);
-  console.log('Instagram deletion Raw request:', req);
+  
+  // If body is still empty, check for raw body
+  if (!req.body || Object.keys(req.body).length === 0) {
+    console.log('Body empty, checking rawBody if available');
+    if (req.rawBody) console.log('Raw body:', req.rawBody);
+  }
   
   // Process the Facebook deauth here
   deletes.unshift(req.body || {});
