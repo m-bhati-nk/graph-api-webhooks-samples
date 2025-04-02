@@ -55,15 +55,23 @@ app.get('/instagram/data_deletion', function(req, res) {
 });
 
 app.post('/instagram/data_deletion', function(req, res) {
-  console.log('Instagram deletion request POST body:', req.body);
+  console.log('Instagram deletion request POST details:');
+  console.log('Instagram deletion Headers:', req.headers);
+  console.log('Instagram deletion Query:', req.query);
+  console.log('Instagram deletion Body:', req.body);
+  console.log('Instagram deletion Raw request:', req);
+  
   // Process the Facebook deauth here
-  deletes.unshift(req.body);
-  res.send({'confirmation_code': req.body['confirmation_code']});
-}
-);
+  deletes.unshift(req.body || {});
+  res.send({'confirmation_code': req.body && req.body['confirmation_code'] || req.query['confirmation_code'] || 'unknown'});
+});
 
 app.post('/instagram/deauthorize', function(req, res) {
   console.log('Instagram deauthrise request POST body:', req.body);
+  console.log('Instagram deauthrise Headers:', req.headers);
+  console.log('Instagram deauthrise Query:', req.query);
+  console.log('Instagram deauthrise Body:', req.body);
+  console.log('Instagram deauthrise Raw request:', req);
   // Process the Facebook deauth here
   deauths.unshift(req.body);
   res.send({'confirmation_code': req.body['confirmation_code']});
