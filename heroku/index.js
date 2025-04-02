@@ -65,7 +65,7 @@ app.post('/instagram/data_deletion', function(req, res) {
 app.post('/instagram/deauthorize', function(req, res) {
   console.log('Instagram deletion request POST body:');
   // Process the Facebook deauth here
-  deletes.unshift(req.body);
+  deauths.unshift(req.body);
   res.send({'confirmation_code': req.body['confirmation_code']});
 }
 );
