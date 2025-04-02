@@ -19,10 +19,22 @@ app.use(bodyParser.json());
 
 var token = process.env.TOKEN || 'token';
 var received_updates = [];
+var deletes = [];
+var deauths = [];
 
 app.get('/', function(req, res) {
   console.log(req);
   res.send('<pre>' + JSON.stringify(received_updates, null, 2) + '</pre>');
+});
+
+app.get('/deletes', function(req, res) {
+  console.log(req);
+  res.send('<pre>' + JSON.stringify(deletes, null, 2) + '</pre>');
+});
+
+app.get('/deauth', function(req, res) {
+  console.log(req);
+  res.send('<pre>' + JSON.stringify(deauths, null, 2) + '</pre>');
 });
 
 app.get(['/facebook', '/instagram', '/threads'], function(req, res) {
@@ -35,6 +47,28 @@ app.get(['/facebook', '/instagram', '/threads'], function(req, res) {
     res.sendStatus(400);
   }
 });
+
+app.get('/instagram/data_deletion', function(req, res) {
+  console.log('Instagram deletion request GET body:');
+  // Process the Facebook deauth here
+  res.send({'confirmation_code': req.query['confirmation_code']});
+});
+
+app.post('/instagram/data_deletion', function(req, res) {
+  console.log('Instagram deletion request POST body:');
+  // Process the Facebook deauth here
+  deletes.unshift(req.body);
+  res.send({'confirmation_code': req.body['confirmation_code']});
+}
+);
+
+app.post('/instagram/deauthorize', function(req, res) {
+  console.log('Instagram deletion request POST body:');
+  // Process the Facebook deauth here
+  deletes.unshift(req.body);
+  res.send({'confirmation_code': req.body['confirmation_code']});
+}
+);
 
 app.post('/facebook', function(req, res) {
   console.log('Facebook request body:', req.body);
