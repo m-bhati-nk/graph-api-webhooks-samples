@@ -55,7 +55,7 @@ app.get('/instagram/data_deletion', function(req, res) {
 });
 
 app.post('/instagram/data_deletion', function(req, res) {
-  console.log('Instagram deletion request POST body:');
+  console.log('Instagram deletion request POST body:', req.body);
   // Process the Facebook deauth here
   deletes.unshift(req.body);
   res.send({'confirmation_code': req.body['confirmation_code']});
@@ -63,7 +63,7 @@ app.post('/instagram/data_deletion', function(req, res) {
 );
 
 app.post('/instagram/deauthorize', function(req, res) {
-  console.log('Instagram deletion request POST body:');
+  console.log('Instagram deauthrise request POST body:', req.body);
   // Process the Facebook deauth here
   deauths.unshift(req.body);
   res.send({'confirmation_code': req.body['confirmation_code']});
