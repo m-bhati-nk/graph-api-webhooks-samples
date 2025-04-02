@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var xhub = require('express-x-hub');
+const multer = require('multer');
+const upload = multer();
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
@@ -75,7 +77,7 @@ app.post('/instagram/data_deletion', function(req, res) {
   res.send({'confirmation_code': req.body && req.body['confirmation_code'] || req.query['confirmation_code'] || 'unknown'});
 });
 
-app.post('/instagram/deauthorize', function(req, res) {
+app.post('/instagram/deauthorize', upload.none(), function(req, res) {
   console.log('Instagram deauthrise request POST body:', req.body);
   console.log('Instagram deauthrise Headers:', req.headers);
   console.log('Instagram deauthrise Query:', req.query);
